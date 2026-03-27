@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: tinyurl
+  datasource:
+    url: jdbc:postgresql://dpg-d731qgtm5p6s73e0v1tg-a.singapore-postgres.render.com/tinyurl_6qs9
+    # postgresql://tinyurl_6qs9_user:CT7a5gB3GyAUOFctc5PtcyuH04jqrhGg@dpg-d731qgtm5p6s73e0v1tg-a.singapore-postgres.render.com/tinyurl_6qs9
+    username: tinyurl_6qs9_user
+    password: CT7a5gB3GyAUOFctc5PtcyuH04jqrhGg
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  flyway:
+    enabled: true
+
+server:
+  port: 8081
+
+app:
+  short-url-base: http://localhost:8081
+  id-allocation:
+    batch-size: 1000
+  cache:
+    slug-ttl: P7D
+  bloom-filter:
+    expected-insertions: 1_000_000
+    fpp: 0.01
+    enabled: true
+  zookeeper:
+    connect-string: localhost:2181
+    session-timeout-ms: 60000
+    connection-timeout-ms: 15000
+    id-counter-path: /tinyurl/id-counter
+  rate-limit:
+    enabled: false
+    permits-per-minute: 120
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  health:
+    redis:
+      enabled: true
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

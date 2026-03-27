@@ -1,0 +1,83 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '4.0.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'pmd'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.boot:spring-boot-dependencies:4.0.4'
+	}
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('resilience4jVersion', '2.2.0')
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+	implementation 'org.apache.curator:curator-framework:5.7.1'
+	implementation 'org.apache.curator:curator-recipes:5.7.1'
+
+	implementation "io.github.resilience4j:resilience4j-circuitbreaker:${resilience4jVersion}"
+	implementation "io.github.resilience4j:resilience4j-ratelimiter:${resilience4jVersion}"
+	implementation "io.github.resilience4j:resilience4j-micrometer:${resilience4jVersion}"
+
+	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+
+	implementation 'com.google.guava:guava:33.4.0-jre'
+
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5'
+
+	runtimeOnly 'org.postgresql:postgresql'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'com.h2database:h2'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+pmd {
+	toolVersion = '7.10.0'
+	consoleOutput = true
+	ignoreFailures = false
+	ruleSetFiles = files("$rootDir/config/pmd/pmd-ruleset.xml")
+}
+
+tasks.named('pmdMain') {
+	group = 'verification'
+}
+
+tasks.named('pmdTest') {
+	group = 'verification'
+}

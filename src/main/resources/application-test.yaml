@@ -1,0 +1,25 @@
+# Active with: spring.profiles.active=test
+# Used by Gradle tests and optional local runs without Postgres / Redis / ZooKeeper.
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:tinyurl;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+
+management:
+  health:
+    redis:
+      enabled: false
