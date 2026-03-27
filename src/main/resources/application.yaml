@@ -2,10 +2,9 @@ spring:
   application:
     name: tinyurl
   datasource:
-    url: jdbc:postgresql://dpg-d731qgtm5p6s73e0v1tg-a.singapore-postgres.render.com/tinyurl_6qs9
-    # postgresql://tinyurl_6qs9_user:CT7a5gB3GyAUOFctc5PtcyuH04jqrhGg@dpg-d731qgtm5p6s73e0v1tg-a.singapore-postgres.render.com/tinyurl_6qs9
-    username: tinyurl_6qs9_user
-    password: CT7a5gB3GyAUOFctc5PtcyuH04jqrhGg
+    url: jdbc:postgresql://localhost:5432/tinyurl
+    username: postgres
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: validate
